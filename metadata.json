@@ -1,0 +1,7 @@
+{
+  "name": "NovaSCP - Modern Remote Explorer",
+  "description": "A high-performance web-based SCP client interface for managing remote servers, simulating file transfers, and generating secure copy commands with AI assistance.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

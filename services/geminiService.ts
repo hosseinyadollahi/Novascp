@@ -1,7 +1,8 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+// Use process.env.API_KEY directly as a named parameter as required by guidelines
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const askGemini = async (prompt: string, context?: string) => {
   try {
@@ -15,6 +16,7 @@ export const askGemini = async (prompt: string, context?: string) => {
         temperature: 0.7,
       },
     });
+    // Accessing .text as a property as specified in the property definition guidelines
     return response.text;
   } catch (error) {
     console.error("Gemini Error:", error);
@@ -44,8 +46,11 @@ export const generateSCPCommand = async (details: any) => {
         }
       }
     });
-    return JSON.parse(response.text);
+    // Extracting text output safely using the recommended .text property and trimming
+    const jsonStr = (response.text || "").trim();
+    return JSON.parse(jsonStr);
   } catch (error) {
+    console.error("SCP command generation failed:", error);
     return { command: "scp source user@host:dest", explanation: "Default fallback command", securityNote: "Always check host keys." };
   }
 };

@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import FileBrowser from './components/FileBrowser';
 import TransferQueue from './components/TransferQueue';
-import GeminiAssistant from './components/GeminiAssistant';
 import ConnectionManager from './components/ConnectionManager';
+import GeminiAssistant from './components/GeminiAssistant';
 import { Icons, INITIAL_SERVERS } from './constants';
 import { ServerConnection, TransferJob, SCPFile } from './types';
 
@@ -232,6 +232,7 @@ const App: React.FC = () => {
         onUpdate={handleUpdateServer}
         onDelete={handleDeleteServer}
       />
+      {/* AI Assistant Floating UI */}
       <GeminiAssistant />
     </div>
   );

@@ -103,7 +103,6 @@ const App: React.FC = () => {
       />
 
       <main className="flex-1 flex flex-col relative">
-        {/* Header / Nav */}
         <header className="h-16 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-8 shrink-0">
           <div className="flex items-center gap-4">
             <h2 className="text-lg font-bold text-white tracking-tight">
@@ -141,7 +140,6 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        {/* Dynamic Content */}
         <div className="flex-1 flex overflow-hidden">
           {activeTab === 'explorer' && (
             <>
@@ -223,7 +221,6 @@ const App: React.FC = () => {
         </div>
       </main>
 
-      {/* Modals & Overlays */}
       <ConnectionManager 
         isOpen={isManagerOpen} 
         onClose={() => setIsManagerOpen(false)}
@@ -232,7 +229,6 @@ const App: React.FC = () => {
         onUpdate={handleUpdateServer}
         onDelete={handleDeleteServer}
       />
-      {/* AI Assistant Floating UI */}
       <GeminiAssistant />
     </div>
   );

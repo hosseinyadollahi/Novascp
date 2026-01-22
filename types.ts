@@ -33,7 +33,6 @@ export interface TransferJob {
   direction: 'upload' | 'download';
 }
 
-// Added ChatMessage interface to resolve import error in GeminiAssistant.tsx
 export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;

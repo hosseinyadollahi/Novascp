@@ -11,8 +11,12 @@ import { ServerConnection, TransferJob, SCPFile } from './types';
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('explorer');
   const [servers, setServers] = useState<ServerConnection[]>(() => {
-    const saved = localStorage.getItem('novascp_servers');
-    return saved ? JSON.parse(saved) : INITIAL_SERVERS;
+    try {
+      const saved = localStorage.getItem('novascp_servers');
+      return saved ? JSON.parse(saved) : INITIAL_SERVERS;
+    } catch (e) {
+      return INITIAL_SERVERS;
+    }
   });
   const [selectedServerId, setSelectedServerId] = useState<string | null>(servers[0]?.id || null);
   const [transferJobs, setTransferJobs] = useState<TransferJob[]>([]);
@@ -168,52 +172,25 @@ const App: React.FC = () => {
                   </div>
                 ))}
               </div>
-
+              
               <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8">
                 <div className="flex items-center justify-between mb-8">
                   <h3 className="text-xl font-bold text-white">Recent Activity</h3>
-                  <button className="text-xs font-bold text-indigo-400 hover:underline">Clear History</button>
                 </div>
-                <div className="space-y-4">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="flex items-center gap-4 py-4 border-b border-slate-800/50 last:border-0 group">
-                      <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center shrink-0 border border-slate-700">
-                        <Icons.Check className="w-5 h-5 text-emerald-500" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-200">
-                          Successful download of <span className="text-indigo-400 font-mono bg-indigo-500/10 px-1.5 py-0.5 rounded">backup_db_v{i}.sql.gz</span>
-                        </p>
-                        <p className="text-[11px] text-slate-500 mt-1 font-medium">To /Users/home/Downloads • {i * 12} mins ago</p>
-                      </div>
-                      <button className="text-slate-400 hover:text-white px-4 py-1.5 rounded-xl border border-slate-700 text-[11px] font-bold group-hover:bg-slate-800 transition-colors">
-                        Inspect
-                      </button>
-                    </div>
-                  ))}
+                <div className="space-y-4 text-slate-400 text-sm">
+                  (Activity Log will appear here after transfers)
                 </div>
               </div>
             </div>
           )}
 
           {activeTab === 'terminal' && (
-            <div className="flex-1 bg-black p-6 mono text-sm flex flex-col border-t border-slate-800 shadow-[inset_0_0_40px_rgba(0,0,0,0.5)]">
-              <div className="flex-1 overflow-y-auto space-y-2 no-scrollbar">
-                <p className="text-emerald-500 opacity-80">Last login: Fri Dec 12 10:14:22 2023 from 192.168.1.5</p>
-                <p className="text-indigo-400 font-bold mb-4">Welcome to NovaTerminal v1.0.4-stable</p>
-                <div className="space-y-1">
-                  <p className="text-slate-400 opacity-70">ubuntu@nova-server:~$ ls -la</p>
-                  <p className="text-slate-200">drwxr-xr-x  2 root root  4096 Oct 24 14:20 <span className="text-indigo-400">var</span></p>
-                  <p className="text-slate-200">drwxr-xr-x  2 root root  4096 Nov 12 09:15 <span className="text-indigo-400">etc</span></p>
-                  <p className="text-slate-200">-rw-r--r--  1 ubu  ubu   2048 Dec 01 18:30 <span className="text-emerald-400">config.yaml</span></p>
-                </div>
+            <div className="flex-1 bg-black p-6 mono text-sm flex flex-col border-t border-slate-800">
+              <div className="flex-1 overflow-y-auto space-y-2">
+                <p className="text-emerald-500 opacity-80">Connecting to {selectedServer?.host || 'remote host'}...</p>
                 <div className="flex items-center gap-2 mt-4">
-                  <span className="text-indigo-500 font-bold shrink-0">ubuntu@nova-server:~$</span>
-                  <input 
-                    className="bg-transparent border-none outline-none text-white w-full caret-indigo-500" 
-                    placeholder="Type command..."
-                    autoFocus 
-                  />
+                  <span className="text-indigo-500 font-bold shrink-0">{selectedServer?.username || 'user'}@nova:~$</span>
+                  <input className="bg-transparent border-none outline-none text-white w-full caret-indigo-500" placeholder="Type command..." autoFocus />
                 </div>
               </div>
             </div>
